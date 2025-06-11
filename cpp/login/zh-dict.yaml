@@ -1,0 +1,47 @@
+person:
+ query: 查询用户信息
+ update: 更改用户信息
+ add: 新增用户信息
+ info:
+  stuid: 学号
+  psw: 密码
+  name: 姓名
+  phone: 手机
+  volunid: 义工号
+  identity: 政治面貌
+  time: 志愿时长
+  college: 学院
+  gender: 性别
+  grade: 年级
+  edubackgound: 学历
+  id: 主键id
+duty:
+ query: 查询报名信息
+ add: 批量新增报名信息
+ delete: 删除报名信息
+ update: 修改报名状态信息
+ queryschedule: 查询值班表
+ info: 
+  school_id: 学号
+  date: 时间
+  begin_time: 开始时间
+  end_time: 结束时间
+  sign_in: 签到
+  sign_out: 签退
+  cnt: 数量
+  info: 报名信息
+  pname_list: 姓名列表
+  schedulecnt: 值班表数量
+feedback:
+ query: 查询违规信息
+ add: 新增违规信息
+ info:
+  stuid: 学号
+  pname: 姓名
+  qdate: 日期
+  isclean: 卫生情况
+  isnoise: 大声喧哗情况
+  isfood: 吃东西情况
+  isseat: 占座情况
+  isother: 其他情况
+  list: 信息列表
