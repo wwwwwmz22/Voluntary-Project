@@ -16,6 +16,8 @@ class FeedbackDO{
 	CC_SYNTHESIZE(string, isfood, isFood);
 	CC_SYNTHESIZE(string, isseat, isSeat);
 	CC_SYNTHESIZE(string, isother, isOther);
+	CC_SYNTHESIZE(string, begin_time, BeginTime);
+	CC_SYNTHESIZE(string, end_time, EndTime);
 public:
 	FeedbackDO() {
 		id = 0;
@@ -27,6 +29,8 @@ public:
 		isfood = "";
 		isseat = "";
 		isother = "";
+		begin_time = "";
+		end_time = "";
 	}
 };
 typedef std::shared_ptr<FeedbackDO> PtrFeedbackDO;

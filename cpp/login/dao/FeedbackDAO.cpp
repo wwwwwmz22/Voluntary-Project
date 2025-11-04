@@ -29,7 +29,7 @@ std::string FeedbackDAO::queryConditionBuilder(const FeedbackQuery::Wrapper& que
 std::list<FeedbackDO> FeedbackDAO::selectWithPage(const FeedbackQuery::Wrapper& query)
 {
 	SqlParams params;
-	string sql = "SELECT school_id,pname,qdate,isclean,isnoise,isfood,isseat,isother FROM feedback_recording ";
+	string sql = "SELECT school_id,pname,qdate,isclean,isnoise,isfood,isseat,isother,begin_time ,end_time FROM feedback_recording ";
 	sql += queryConditionBuilder(query, params);
 
 	FeedbackMapper mapper;
@@ -38,8 +38,8 @@ std::list<FeedbackDO> FeedbackDAO::selectWithPage(const FeedbackQuery::Wrapper& 
 
 int FeedbackDAO::insert(const FeedbackDO& obj)
 {
-	string sql = "INSERT INTO `feedback_recording` (`school_id`,`pname`,`qdate`,`isclean`,`isnoise`,`isfood`,`isseat`,`isother`) VALUES(?,?,?,?,?,?,?,?) ";
+	string sql = "INSERT INTO `feedback_recording` (`school_id`,`pname`,`qdate`,`isclean`,`isnoise`,`isfood`,`isseat`,`isother`,`begin_time`,`end_time`) VALUES(?,?,?,?,?,?,?,?,?,?) ";
 
-	return sqlSession->executeUpdate(sql, "%s%s%s%s%s%s%s%s", obj.getSchoolId(),  obj.getpName(),obj.getQdate(),obj.getisClean(),obj.getisNoise(),obj.getisFood(),obj.getisSeat(),obj.getisOther());
+	return sqlSession->executeUpdate(sql, "%s%s%s%s%s%s%s%s%s%s", obj.getSchoolId(),  obj.getpName(),obj.getQdate(),obj.getisClean(),obj.getisNoise(),obj.getisFood(),obj.getisSeat(),obj.getisOther(),obj.getBeginTime(),obj.getEndTime());
 
 }

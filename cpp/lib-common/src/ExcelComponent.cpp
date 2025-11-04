@@ -1,15 +1,15 @@
 /*
  Copyright Zero One Star. All rights reserved.
- 
+
  @Author: awei
  @Date: 2022/10/24 15:38:30
- 
+
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
-      https://www.apache.org/licenses/LICENSE-2.0
- 
+
+	  https://www.apache.org/licenses/LICENSE-2.0
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,17 +46,9 @@ void ExcelComponent::writeLineByLine(const std::vector<std::vector<std::string>>
 		col = 1;
 		for (auto cellVal : aSignRow)
 		{
-			//设置单元格值
-			sheet.cell(xlnt::cell_reference(col, row)).value(cellVal);
-			//设置列宽度
-			sheet.column_properties(col).custom_width = true;
-			sheet.column_properties(col).width = colWidth;
-			col++;
+			setCellValue(row, col++, cellVal);
 		}
-		//设置行高度
-		sheet.row_properties(row).custom_height = true;
-		sheet.row_properties(row).height = rowHeight;
-		row++;
+		setRowProperties(row++);
 	}
 }
 
@@ -104,20 +96,73 @@ void ExcelComponent::loadFile(const std::string& filename)
 	this->wb.load(filename);
 }
 
-void ExcelComponent::writeVectorToFile(const std::string& filename, const std::string& sheetname, const std::vector<std::vector<std::string>>& data)
+void ExcelComponent::setRowProperties(int row)
+{
+	//设置行高度
+	sheet.row_properties(row).custom_height = true;
+	sheet.row_properties(row).height = rowHeight;
+}
+
+void ExcelComponent::setCellValue(int row, int col, const std::string& value)
+{
+	//设置单元格值
+	sheet.cell(xlnt::cell_reference(col, row)).value(value);
+	//设置列宽度
+	sheet.column_properties(col).custom_width = true;
+	sheet.column_properties(col).width = colWidth;
+}
+
+void ExcelComponent::addHeader(int row, const std::vector<std::string>& header)
+{
+	int col = 1;
+	for (auto headerVal : header) {
+		setCellValue(row, col++, headerVal);
+	}
+	double oldHeight = rowHeight;
+	setRowHeight(25.0);
+	setRowProperties(row);
+	setRowHeight(oldHeight);
+}
+
+void ExcelComponent::mergeCells(int rowStart, int colStart, int rowEnd, int colEnd)
+{
+	// 合并单元格，确保行列号有效
+	if (rowStart < 1 || colStart < 1 || rowEnd < 1 || colEnd < 1 || rowStart > rowEnd || colStart > colEnd) {
+		throw std::invalid_argument("Invalid merge range");
+	}
+	sheet.merge_cells(xlnt::range_reference(
+		xlnt::cell_reference(colStart, rowStart),
+		xlnt::cell_reference(colEnd, rowEnd)
+	));
+}
+
+void ExcelComponent::setAlignmentCenter(int row, int col, bool horizontal, bool vertical)
+{
+	xlnt::alignment align;
+
+	if (horizontal)
+		align.horizontal(xlnt::horizontal_alignment::center);
+
+	if (vertical)
+		align.vertical(xlnt::vertical_alignment::center);
+
+	sheet.cell(xlnt::cell_reference(col, row)).alignment(align);
+}
+
+void ExcelComponent::writeVectorToFile(const std::string& filename, const std::string& sheetname, std::function<void(ExcelComponent*)> fillData)
 {
 	// 创建页签
 	createSheet(sheetname);
-	
-	// 逐行写入数据
-	writeLineByLine(data);
+
+	// 填充数据
+	fillData(this);
 
 	//判断目录是否存在，不存在创建目录
 	auto dir = filename.substr(0, filename.find_last_of("/") + 1);
 	const size_t dirLen = dir.length();
 	if (dirLen > MAX_DIR_LEN)
 	{
-		std::cout << "ExcelComponent 120: excel save fail(file path too long)" << std::endl;
+		std::cout << __FILE__ << " " << __LINE__ << ": excel save fail(file path too long)" << std::endl;
 		return;
 	}
 	char tmpDirPath[MAX_DIR_LEN] = { 0 };
@@ -130,7 +175,7 @@ void ExcelComponent::writeVectorToFile(const std::string& filename, const std::s
 			{
 				if (MKDIR(tmpDirPath) != 0)
 				{
-					std::cout << "ExcelComponent 133: excel save fail(create dir " << tmpDirPath << " fail)" << std::endl;
+					std::cout << __FILE__ << " " << __LINE__ << ": excel save fail(create dir " << tmpDirPath << " fail)" << std::endl;
 					return;
 				}
 			}
@@ -141,13 +186,21 @@ void ExcelComponent::writeVectorToFile(const std::string& filename, const std::s
 	wb.save(filename);
 }
 
-std::vector<std::uint8_t> ExcelComponent::writeVectorToBuff(const std::string& sheetname, const std::vector<std::vector<std::string>>& data)
+void ExcelComponent::writeVectorToFile(const std::string& filename, const std::string& sheetname, const std::vector<std::vector<std::string>>& data)
+{
+	return writeVectorToFile(filename, sheetname,
+		[data](ExcelComponent* ex) {
+			ex->writeLineByLine(data);
+		});
+}
+
+std::vector<std::uint8_t> ExcelComponent::writeVectorToBuff(const std::string& sheetname, std::function<void(ExcelComponent*)> fillData)
 {
 	// 创建页签
 	createSheet(sheetname);
 
-	// 逐行写入数据
-	writeLineByLine(data);
+	// 填充数据
+	fillData(this);
 
 	// 保存到缓存中
 	std::vector<std::uint8_t> buff;
@@ -157,11 +210,16 @@ std::vector<std::uint8_t> ExcelComponent::writeVectorToBuff(const std::string& s
 	return buff;
 }
 
-std::vector<std::vector<std::string>> ExcelComponent::readIntoVector(const std::string& filename, const std::string& sheetname)
+std::vector<std::uint8_t> ExcelComponent::writeVectorToBuff(const std::string& sheetname, const std::vector<std::vector<std::string>>& data)
 {
-	// 定义一个返回结果的二维表
-	std::vector<std::vector<std::string>> result;
+	return writeVectorToBuff(sheetname,
+		[data](ExcelComponent* ex) {
+			ex->writeLineByLine(data);
+		});
+}
 
+void ExcelComponent::read(const std::string& filename, const std::string& sheetname, std::function<void(xlnt::worksheet*)> parseData)
+{
 	// 定义一个临时的工作表，并加载文件
 	auto tmpWb = xlnt::workbook();
 	try
@@ -170,30 +228,24 @@ std::vector<std::vector<std::string>> ExcelComponent::readIntoVector(const std::
 	}
 	catch (xlnt::exception e)
 	{
-		std::cout << "ExcelComponent 173: load excel fail(" << e.what() << ")" << std::endl;
-		return result;
+		std::cout << __FILE__ << " " << __LINE__ << ": load excel fail(" << e.what() << ")" << std::endl;
+		return;
 	}
-	
+
 	// 判断是否存在指定页签
 	if (!tmpWb.contains(sheetname))
 	{
-		std::cout << "ExcelComponent 180: read sheet fail(" << CharsetConvertHepler::utf8ToAnsi(sheetname) << " is not contain)" << std::endl;
-		return result;
+		std::cout << __FILE__ << " " << __LINE__ << ": read sheet fail(" << CharsetConvertHepler::utf8ToAnsi(sheetname) << " is not contain)" << std::endl;
+		return;
 	}
-	
-	// 逐行读取数据
-	auto sheet = tmpWb.sheet_by_title(sheetname);
-	readLineByLine(&sheet, &result);
 
-	// 返回读取结果
-	return result;
+	// 解析数据
+	auto sheet = tmpWb.sheet_by_title(sheetname);
+	parseData(&sheet);
 }
 
-std::vector<std::vector<std::string>> ExcelComponent::readIntoVector(const char* data, size_t size, const std::string& sheetname)
+void ExcelComponent::read(const char* data, size_t size, const std::string& sheetname, std::function<void(xlnt::worksheet*)> parseData)
 {
-	// 定义一个返回结果的二维表
-	std::vector<std::vector<std::string>> result;
-
 	// 定义一个临时的工作表，并加载文件
 	auto tmpWb = xlnt::workbook();
 	try
@@ -204,20 +256,45 @@ std::vector<std::vector<std::string>> ExcelComponent::readIntoVector(const char*
 	}
 	catch (xlnt::exception e)
 	{
-		std::cout << "ExcelComponent 207: load excel fail(" << e.what() << ")" << std::endl;
-		return result;
+		std::cout << __FILE__ << " " << __LINE__ << ": load excel fail(" << e.what() << ")" << std::endl;
+		return;
 	}
 
 	// 判断是否存在指定页签
 	if (!tmpWb.contains(sheetname))
 	{
-		std::cout << "ExcelComponent 214: read sheet fail(" << CharsetConvertHepler::utf8ToAnsi(sheetname) << " is not contain)" << std::endl;
-		return result;
+		std::cout << __FILE__ << " " << __LINE__ << ": read sheet fail(" << CharsetConvertHepler::utf8ToAnsi(sheetname) << " is not contain)" << std::endl;
+		return;
 	}
 
-	// 逐行读取数据
+	// 解析数据
 	auto sheet = tmpWb.sheet_by_title(sheetname);
-	readLineByLine(&sheet, &result);
+	parseData(&sheet);
+}
+
+std::vector<std::vector<std::string>> ExcelComponent::readIntoVector(const std::string& filename, const std::string& sheetname)
+{
+	// 定义一个返回结果的二维表
+	std::vector<std::vector<std::string>> result;
+
+	// 逐行读取数据
+	read(filename, sheetname, [&result](xlnt::worksheet* sheet) {
+		readLineByLine(sheet, &result);
+		});
+
+	// 返回读取结果
+	return result;
+}
+
+std::vector<std::vector<std::string>> ExcelComponent::readIntoVector(const char* data, size_t size, const std::string& sheetname)
+{
+	// 定义一个返回结果的二维表
+	std::vector<std::vector<std::string>> result;
+
+	// 逐行读取数据
+	read(data, size, sheetname, [&result](xlnt::worksheet* sheet) {
+		readLineByLine(sheet, &result);
+		});
 
 	// 返回读取结果
 	return result;

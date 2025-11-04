@@ -26,18 +26,21 @@ public:
 		API_DEF_ADD_RSP_JSON_WRAPPER(DutyJsonVO);
 		//定义其他参数
 		API_DEF_ADD_QUERY_PARAMS(String, "qdate", ZH_WORDS_GETTER("duty.info.date"), "2025-05-15", false);
+		API_DEF_ADD_QUERY_PARAMS(String, "school_id", ZH_WORDS_GETTER("duty.info.school_id"), "2022101010", false);
 	}
 
 	//定义查询报名信息接口端点处理
-	ENDPOINT(API_M_GET, "duty/getDutyInfo", queryDuty, QUERIES(QueryParams, qdate)) {
+	ENDPOINT(API_M_GET, "duty/getOneDutyInfo", queryDuty, QUERIES(QueryParams,params)) {
 		//解析查询参数
-		API_HANDLER_QUERY_PARAM(querydate, DutyQuery, qdate);
+		auto query = DutyQuery::createShared();
+		query->school_id = params.get("school_id");
+		query->qdate = params.get("qdate");
 		//呼叫执行函数响应结果
-		API_HANDLER_RESP_VO(executeQueryInfo(querydate));
+		API_HANDLER_RESP_VO(executeQueryInfo(query));
 	}
 
 	//定义新增报名信息接口描述
-	API_DEF_ENDPOINT_INFO(ZH_WORDS_GETTER("duty.add"), addInfo, Uint64JsonVO::Wrapper);
+	API_DEF_ENDPOINT_INFO(ZH_WORDS_GETTER("duty.add"), addInfo, StringJsonVO::Wrapper);
 	//定义新增报名信息接口处理
 	API_HANDLER_ENDPOINT(API_M_POST, "duty/addInfo", addInfo, BODY_DTO(AddDutyDTO::Wrapper, dtolist), execAdd(dtolist));
 
@@ -70,17 +73,38 @@ public:
 		API_HANDLER_RESP_VO(executeQuerySchedule(queryschedule));
 	}
 
+
+	// 定义导出数据接口描述
+	ENDPOINT_INFO(exportDuty) {
+		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("duty.export"));
+		API_DEF_ADD_RSP_JSON(Void);
+		//定义其他参数
+		API_DEF_ADD_QUERY_PARAMS(String, "begin_date", ZH_WORDS_GETTER("duty.info.begin_date"), "2025-10-31", false);
+		API_DEF_ADD_QUERY_PARAMS(String, "end_date", ZH_WORDS_GETTER("duty.info.end_date"), "2025-11-01", false);
+	}
+	// 定义导出数据接口处理
+	ENDPOINT(API_M_POST, "/duty/export", exportDuty, QUERIES(QueryParams, params)) {
+		//解析查询参数
+		auto query = DutyExportQuery::createShared();
+		query->begin_date = params.get("begin_date");
+		query->end_date = params.get("end_date");
+		//呼叫执行函数响应结果
+		return execExportPeople(query);
+	}
+
 private:
 	//查询报名信息
 	DutyJsonVO::Wrapper executeQueryInfo(const DutyQuery::Wrapper& query);
 	//新增报名信息
-	Uint64JsonVO::Wrapper execAdd(const AddDutyDTO::Wrapper& dtolist);
+	StringJsonVO::Wrapper execAdd(const AddDutyDTO::Wrapper& dtolist);
 	//修改信息
 	Uint64JsonVO::Wrapper execUpdate(const DutyDTO::Wrapper& dto);
 	//取消报名信息
 	Uint64JsonVO::Wrapper execRemove(const DeleteDutyDTO::Wrapper& dto);
 	//查询值班表
 	ScheduleJsonVO::Wrapper executeQuerySchedule(const DutyQuery::Wrapper& query);
+	// 导出数据
+	std::shared_ptr<OutgoingResponse> execExportPeople(const DutyExportQuery::Wrapper& query);
 };
 
 #include OATPP_CODEGEN_END(ApiController)

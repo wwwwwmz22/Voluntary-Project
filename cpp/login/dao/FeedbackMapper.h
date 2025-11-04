@@ -19,6 +19,8 @@ public:
 		data.setisFood(resultSet->getString(6));
 		data.setisSeat(resultSet->getString(7));
 		data.setisOther(resultSet->getString(8));
+		data.setBeginTime(resultSet->getString(9));
+		data.setEndTime(resultSet->getString(10));
 		return data;
 	}
 
@@ -36,6 +38,8 @@ public:
 		data->setisFood(resultSet->getString(6));
 		data->setisSeat(resultSet->getString(7));
 		data->setisOther(resultSet->getString(8));
+		data->setBeginTime(resultSet->getString(9));
+		data->setEndTime(resultSet->getString(10));
 		return data;
 	}
 

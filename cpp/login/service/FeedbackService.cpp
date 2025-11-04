@@ -15,7 +15,7 @@ FeedbackListDTO::Wrapper FeedbackService::listAll(const FeedbackQuery::Wrapper& 
 	for (FeedbackDO sub: res)
 	{
 		auto dto = FeedbackDTO::createShared();
-		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, school_id, SchoolId, qdate, Qdate, pname, pName, isclean,isClean,isnoise,isNoise,isfood,isFood,isseat,isSeat,isother,isOther);
+		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, school_id, SchoolId, qdate, Qdate, pname, pName, isclean,isClean,isnoise,isNoise,isfood,isFood,isseat,isSeat,isother,isOther,begin_time,BeginTime,end_time,EndTime);
 		result->list->push_back(dto);
 	}
 	return result;
@@ -24,7 +24,7 @@ FeedbackListDTO::Wrapper FeedbackService::listAll(const FeedbackQuery::Wrapper& 
 bool FeedbackService::saveData(const FeedbackDTO::Wrapper& dto)
 {
 	FeedbackDO data;
-	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, SchoolId, school_id, Qdate, qdate, pName, pname, isClean,isclean,   isNoise,isnoise,  isFood,isfood, isSeat,isseat,  isOther ,isother);
+	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, SchoolId, school_id, Qdate, qdate, pName, pname, isClean,isclean,   isNoise,isnoise,  isFood,isfood, isSeat,isseat,  isOther ,isother, BeginTime, begin_time, EndTime, end_time);
 	FeedbackDAO dao;
 	return dao.insert(data) == 1;
 }

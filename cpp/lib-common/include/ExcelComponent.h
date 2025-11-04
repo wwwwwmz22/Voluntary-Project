@@ -1,16 +1,16 @@
 #pragma once
 /*
  Copyright Zero One Star. All rights reserved.
- 
+
  @Author: awei
  @Date: 2022/10/24 15:33:44
- 
+
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
-      https://www.apache.org/licenses/LICENSE-2.0
- 
+
+	  https://www.apache.org/licenses/LICENSE-2.0
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,7 +34,7 @@ private:
 	// 行高
 	double rowHeight = 20;
 	// 列宽
-	double colWidth = 20;
+	double colWidth = 15;
 	// 创建Sheet
 	void createSheet(const std::string& sheetname);
 	// 逐行写入数据
@@ -51,6 +51,31 @@ public:
 	void clearWorkbook();
 	// 加载指定Excel文件到内存
 	void loadFile(const std::string& filename);
+	// 设置行通用属性
+	void setRowProperties(int row);
+	// 设置单元格内容
+	void setCellValue(int row, int col, const std::string& value);
+	// 添加表头
+	void addHeader(int row,const std::vector<std::string>& header);
+
+	// 合并单元格
+	void mergeCells(int rowStart, int colStart, int rowEnd, int colEnd);
+
+	// 设置单元格居中
+	void setAlignmentCenter(int row, int col, bool horizontal = true, bool vertical = true);
+
+
+	//************************************
+	// Method:    writeVectorToFile
+	// FullName:  ExcelComponent::writeVectorToFile
+	// Access:    public 
+	// Returns:   void
+	// Parameter: const std::string& filename 文件名称的全路径，注意文件路径分隔符使用/
+	// Parameter: const std::string& sheetname 新增内容保存到的页签名称
+	// Parameter: std::function<void(ExcelComponent*)> fillData 填充数据处理函数，用于支持外部自定义数据填充
+	// Description: 新增内容到指定页签，并保存到文件中
+	//************************************
+	void writeVectorToFile(const std::string& filename, const std::string& sheetname, std::function<void(ExcelComponent*)> fillData);
 
 	//************************************
 	// Method:    writeVectorToFile
@@ -70,22 +95,58 @@ public:
 	// Access:      public 
 	// Returns:     std::vector<std::uint8_t> 返回缓存结果，结果可以使用reinterpret_cast转换成const char*，如：const char* charData = reinterpret_cast<const char*>(data.data());
 	// Parameter:   const std::string& sheetname 新增内容保存到的页签名称
+	// Parameter:   std::function<void(ExcelComponent*)> fillData 填充数据处理函数，用于支持外部自定义数据填充
+	// Description: 新增内容到指定页签，并保存到到缓存中方便传输
+	//************************************
+	std::vector<std::uint8_t> writeVectorToBuff(const std::string& sheetname, std::function<void(ExcelComponent*)> fillData);
+
+	//************************************
+	// Method:      writeVectorToBuff
+	// FullName:    ExcelComponent::writeVectorToBuff
+	// Access:      public 
+	// Returns:     std::vector<std::uint8_t> 返回缓存结果，结果可以使用reinterpret_cast转换成const char*，如：const char* charData = reinterpret_cast<const char*>(data.data());
+	// Parameter:   const std::string& sheetname 新增内容保存到的页签名称
 	// Parameter:   const std::vector<std::vector<std::string>>& data 新增保存的数据
 	// Description: 新增内容到指定页签，并保存到到缓存中方便传输
 	//************************************
 	std::vector<std::uint8_t> writeVectorToBuff(const std::string& sheetname, const std::vector<std::vector<std::string>>& data);
-	
+
+	//************************************
+	// Method:      read
+	// FullName:    ExcelComponent::read
+	// Access:      public static 
+	// Returns:     void
+	// Parameter:   const std::string& filename 文件名称的全路径，注意文件路径分隔符使用/
+	// Parameter:   const std::string& sheetname 页签名称
+	// Parameter:   std::function<void(xlnt::worksheet*)> parseData 数据解析函数，用于支持外部自定义数据解析处理
+	// Description: 读取指定文件指定页签的内容
+	//************************************
+	static void read(const std::string& filename, const std::string& sheetname, std::function<void(xlnt::worksheet*)> parseData);
+
+	//************************************
+	// Method:      read
+	// FullName:    ExcelComponent::read
+	// Access:      public static 
+	// Returns:     void
+	// Parameter:   const char* data 数据内容
+	// Parameter:   size_t size 数据大小
+	// Parameter:   const std::string& sheetname 页签名称
+	// Parameter:   std::function<void(xlnt::worksheet*)> parseData 数据解析函数，用于支持外部自定义数据解析处理
+	// Description: 读取内存数据中指定页签的内容
+	//************************************
+	static void read(const char* data, size_t size, const std::string& sheetname, std::function<void(xlnt::worksheet*)> parseData);
+
 	//************************************
 	// Method:    readIntoVector
 	// FullName:  ExcelComponent::readIntoVector
 	// Access:    public static
 	// Returns:   std::vector<std::vector<std::string>> 指定页签内容的二维vector
-	// Parameter: const std::string & filename 文件名称的全路径，注意文件路径分隔符使用/
-	// Parameter: const std::string & sheetname 页签名称
+	// Parameter: const std::string& filename 文件名称的全路径，注意文件路径分隔符使用/
+	// Parameter: const std::string& sheetname 页签名称
 	// Description: 读取指定文件指定页签的内容
 	//************************************
 	static std::vector<std::vector<std::string>> readIntoVector(const std::string& filename, const std::string& sheetname);
-	
+
 	//************************************
 	// Method:      readIntoVector
 	// FullName:    ExcelComponent::readIntoVector
@@ -93,7 +154,7 @@ public:
 	// Returns:     std::vector<std::vector<std::string>> 指定页签内容的二维vector
 	// Parameter:   const char* data 数据内容
 	// Parameter:   size_t size 数据大小
-	// Parameter:   const std::string & sheetname 页签名称
+	// Parameter:   const std::string& sheetname 页签名称
 	// Description: 读取内存数据中指定页签的内容
 	//************************************
 	static std::vector<std::vector<std::string>> readIntoVector(const char* data, size_t size, const std::string& sheetname);

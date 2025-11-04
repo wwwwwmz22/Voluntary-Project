@@ -11,16 +11,18 @@
 
 class DutyService{
 public:
-	//查询数据
-	DutyListDTO::Wrapper getInfo(const DutyQuery::Wrapper& query);
+	//查询一个人数据
+	DutyListDTO::Wrapper getOneInfo(const DutyQuery::Wrapper& query);
 	//修改信息
 	bool updateData(const DutyDTO::Wrapper& dto);
 	//增加信息
-	bool saveData(oatpp::List<DutyDTO::Wrapper>& dtolist);
+	DutyInsertResultDTO::Wrapper saveData(oatpp::List<DutyDTO::Wrapper>& dtolist);
 	//删除信息
 	bool deleteData(const DeleteDutyDTO::Wrapper& dto);
 	//查询值班表
 	ScheduleListDTO::Wrapper getSchedule(const DutyQuery::Wrapper& query);
+	//导出表
+	DutyExportListDTO::Wrapper exportDuty(const DutyExportQuery::Wrapper& query);
 };
 
 #endif // !_DUTYSERVICE_H_

@@ -14,13 +14,13 @@ public:
 	{
 		DutyResultDO data;
 		//data.setId(resultSet->getInt(1));
-		//data.setSchoolId(resultSet->getString(2));
+		data.setSchoolId(resultSet->getString("school_id"));
 		data.setQdate(resultSet->getString("qdate"));
 		data.setBeginTime(resultSet->getString("begin_time"));
 		data.setEndTime(resultSet->getString("end_time"));
-		data.setCnt(resultSet->getInt("cnt"));
-		//data.setSignIn(resultSet->getInt(6));
-		//data.setSignOut(resultSet->getInt(7));
+		//data.setCnt(resultSet->getInt("cnt"));
+		data.setSignIn(resultSet->getInt("sign_in"));
+		data.setSignOut(resultSet->getInt("sign_out"));
 		return data;
 	}
 
@@ -32,13 +32,13 @@ public:
 	{
 		auto data = std::make_shared<DutyResultDO>();
 		//data->setId(resultSet->getInt(1));
-		//data->setSchoolId(resultSet->getString(2));
+		data->setSchoolId(resultSet->getString("school_id"));
 		data->setQdate(resultSet->getString("qdate"));
 		data->setBeginTime(resultSet->getString("begin_time"));
 		data->setEndTime(resultSet->getString("end_time"));
-		data->setCnt(resultSet->getInt("cnt"));
-		//data->setSignIn(resultSet->getInt(6));
-		//data->setSignOut(resultSet->getInt(7));
+		//data->setCnt(resultSet->getInt("cnt"));
+		data->setSignIn(resultSet->getInt("sign_in"));
+		data->setSignOut(resultSet->getInt("sign_out"));
 		return data;
 	}
 

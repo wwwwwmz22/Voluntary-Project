@@ -63,4 +63,24 @@ public:
 // 给DutyDO智能指针设定一个别名方便使用
 typedef std::shared_ptr<ScheduleDO> PtrScheduleDO;
 
+
+class DutyExportDO {
+	CC_SYNTHESIZE(string, voluntary_id, VoluntaryId);
+	CC_SYNTHESIZE(string, name, Name);
+	CC_SYNTHESIZE(string, date, Date);
+	CC_SYNTHESIZE(string, begin_time, BeginTime);
+	CC_SYNTHESIZE(string, end_time, EndTime);
+	CC_SYNTHESIZE(double, total_time, TotalTime);
+public:
+	DutyExportDO() {
+		voluntary_id = "";
+		name = "";
+		date = "";
+		begin_time = "";
+		end_time = "";
+		total_time = 0.00;
+	}
+};
+// 给DutyExportDO智能指针设定一个别名方便使用
+typedef std::shared_ptr<DutyExportDO> PtrDutyExportDO;
 #endif // !_DUTYDO_H_

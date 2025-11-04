@@ -27,6 +27,10 @@ class FeedbackDTO : public oatpp::DTO {
 	API_DTO_FIELD_DEFAULT(String, isseat, ZH_WORDS_GETTER("feedback.info.isseat"));
 	//其他情况
 	API_DTO_FIELD_DEFAULT(String, isother, ZH_WORDS_GETTER("feedback.info.isother"));
+	//开始时间
+	API_DTO_FIELD_DEFAULT(String, begin_time, ZH_WORDS_GETTER("duty.info.begin_time"));
+	//结束时间
+	API_DTO_FIELD_DEFAULT(String, end_time, ZH_WORDS_GETTER("duty.info.end_time"));
 };
 
 class FeedbackListDTO :public oatpp::DTO {

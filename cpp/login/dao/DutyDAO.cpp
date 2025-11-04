@@ -4,6 +4,7 @@
 #include <ctime>
 #include "DutyMapper.h"
 #include "ScheduleMapper.h"
+#include "DutyExportMapper.h"
 
 
 std::string DutyDAO::queryConditionBuilder(const DutyQuery::Wrapper& query, SqlParams& params)
@@ -23,16 +24,17 @@ std::string DutyDAO::queryConditionBuilder(const DutyQuery::Wrapper& query, SqlP
 //	return 99;
 //}
 
-std::list<DutyResultDO> DutyDAO::selectOneDay(const DutyQuery::Wrapper& query)
+std::list<DutyResultDO> DutyDAO::selectOneDayById(const DutyQuery::Wrapper& query)
 {
 	SqlParams params;
-	string sql = "SELECT qdate,begin_time,end_time,COUNT(*) AS cnt FROM duty_recording ";
-	sql += queryConditionBuilder(query,params);
+	string sql = "SELECT school_id,qdate,begin_time,end_time,sign_in,sign_out FROM duty_recording ";
+	sql += "WHERE `school_id` = ? AND  `qdate`= ? ";
 	sql += " GROUP BY qdate,begin_time, end_time ORDER BY begin_time";
-
+	SQLPARAMS_PUSH(params, "s", std::string, query->school_id.getValue(""));
+	SQLPARAMS_PUSH(params, "s", std::string,query->qdate.getValue(""));
 	//查询
 	DutyMapper mapper;
-	return sqlSession->executeQuery<DutyResultDO>(sql,mapper,"s",query->qdate.getValue(""));
+	return sqlSession->executeQuery<DutyResultDO>(sql,mapper, params);
 }
 
 int DutyDAO::update(const DutyDO& obj)
@@ -91,4 +93,69 @@ std::list<ScheduleDO> DutyDAO::selectSchedule(const DutyQuery::Wrapper& query)
 	//查询
 	ScheduleMapper mapper;
 	return sqlSession->executeQuery<ScheduleDO>(sql, mapper,params);
+}
+
+std::list<DutyExportDO> DutyDAO::selectDutyExport(const DutyExportQuery::Wrapper& query)
+{
+	SqlParams params;
+	string sql = R"(
+        SELECT
+            l.voluntary_id,
+            l.pname AS `name`,
+            d.qdate AS `date`,
+            d.begin_time,
+            d.end_time,
+            -- 计算 total_time 为小时数（保留两位小数）
+            ROUND(TIME_TO_SEC(TIMEDIFF(d.end_time, d.begin_time)) / 3600, 2) AS `total_time`
+        FROM
+            duty_recording d
+        INNER JOIN
+            vp_login l ON d.school_id = l.school_id
+        WHERE
+            d.qdate >= ? AND d.qdate <= ?
+        ORDER BY
+            d.qdate ASC, d.begin_time ASC
+    )";
+
+	SQLPARAMS_PUSH(params, "s", std::string, query->begin_date.getValue(""));
+	SQLPARAMS_PUSH(params, "s", std::string, query->end_date.getValue(""));
+	DutyExportMapper mapper;
+	return sqlSession->executeQuery<DutyExportDO>(sql, mapper, params);
+}
+
+int DutyDAO::countByTimeRange(const oatpp::String& qdate, const oatpp::String& begin_time, const oatpp::String& end_time)
+{
+	SqlSession sqlSession ;
+	std::string sql = R"(
+        SELECT COUNT(*) AS cnt
+        FROM duty_recording
+        WHERE qdate = ? AND begin_time = ? AND end_time = ?
+    )";
+
+	SqlParams params;
+	SQLPARAMS_PUSH(params, "s", std::string, qdate.getValue(""));
+	SQLPARAMS_PUSH(params, "s", std::string, begin_time.getValue(""));
+	SQLPARAMS_PUSH(params, "s", std::string, end_time.getValue(""));
+
+	auto result = sqlSession.executeQueryNumerical(sql, params);
+	return result;
+}
+
+bool DutyDAO::existsSameVolunteer(const oatpp::String& school_id, const oatpp::String& qdate, const oatpp::String& begin_time, const oatpp::String& end_time)
+{
+	SqlSession sqlSession ;
+	std::string sql = R"(
+        SELECT COUNT(*) AS cnt
+        FROM duty_recording
+        WHERE school_id = ? AND qdate = ? AND begin_time = ? AND end_time = ?
+    )";
+
+	SqlParams params;
+	SQLPARAMS_PUSH(params, "s", std::string, school_id.getValue(""));
+	SQLPARAMS_PUSH(params, "s", std::string, qdate.getValue(""));
+	SQLPARAMS_PUSH(params, "s", std::string, begin_time.getValue(""));
+	SQLPARAMS_PUSH(params, "s", std::string, end_time.getValue(""));
+	
+	auto result = sqlSession.executeQueryNumerical(sql, params);
+	return result > 0;
 }

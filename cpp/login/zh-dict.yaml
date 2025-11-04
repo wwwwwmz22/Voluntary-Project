@@ -15,12 +15,26 @@ person:
   grade: 年级
   edubackgound: 学历
   id: 主键id
+
 duty:
  query: 查询报名信息
  add: 批量新增报名信息
  delete: 删除报名信息
  update: 修改报名状态信息
  queryschedule: 查询值班表
+ export: 导出志愿时长表
+ execl:
+  title: 深圳志愿者（义工）服务时间统计表（用于组织管理员导入系统）
+  squence: 序号
+  voluntary_id: 义工号
+  name: 姓名
+  date: 服务开展日期(yyyy/MM/dd)
+  begin_time: 签到时间(HH:mm)
+  end_time: 签退时间(HH:mm)
+  total_time: 服务时长（单位:小时）
+  luru: 录入人
+  zhengming: 证明人
+  list: 数据列表
  info: 
   school_id: 学号
   date: 时间
@@ -32,6 +46,10 @@ duty:
   info: 报名信息
   pname_list: 姓名列表
   schedulecnt: 值班表数量
+  begin_date: 开始日期
+  end_date: 结束日期
+
+
 feedback:
  query: 查询违规信息
  add: 新增违规信息
