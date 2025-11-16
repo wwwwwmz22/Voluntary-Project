@@ -17,8 +17,7 @@ function loadProfile() {
     document.getElementById("profile_phone").innerText = user.phone_number || "";
     document.getElementById("profile_gender").innerText = user.gender || "未填写";
     document.getElementById("profile_grade").innerText = user.grade || "未填写";
-    document.getElementById("profile_edu").innerText = user.education || "未填写";
-    document.getElementById("profile_time").innerText = user.voluntary_time || 0;
+    document.getElementById("profile_edu").innerText = user.edu_background || "未填写";
     document.getElementById("profile_score").innerText = user.score || 0;
 }
 

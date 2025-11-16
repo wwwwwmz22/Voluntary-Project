@@ -36,8 +36,6 @@ class PersonUpdateInfoDTO : public oatpp::DTO {
 	API_DTO_FIELD_DEFAULT(UInt64, grade, ZH_WORDS_GETTER("person.info.grade"));
 	//Ñ§Àú
 	API_DTO_FIELD_DEFAULT(String, edu_background, ZH_WORDS_GETTER("person.info.edubackground"));
-	//ÃÜÂë
-	API_DTO_FIELD_DEFAULT(String, pasword, ZH_WORDS_GETTER("person.info.psw"));
 };
 
 /**

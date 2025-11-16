@@ -33,8 +33,8 @@ PtrPersonInfoDO PersonInfoDAO::selectByIdAndPasword(const PersonInfoQuery::Wrapp
 
 int PersonInfoDAO::update(const PersonInfoDO& obj)
 {
-	string sql = "UPDATE `vp_login` SET `pname`=?,`college`=?,`voluntary_id`=?, `political_status`=?,`phone_number`=?,`grade`=?,`edu_background`=?,`pasword`=?  WHERE `school_id` =?";
-	return sqlSession->executeUpdate(sql, "%s%s%s%s%s%i%s%s%s",obj.getpName(),obj.getCollege(),obj.getVoluntaryId(),obj.getPoliticalStatus(),obj.getPhoneNumber(),obj.getGrade(),obj.getEduBackground(),obj.getPasword(),obj.getSchoolId());
+	string sql = "UPDATE `vp_login` SET `pname`=?,`college`=?,`voluntary_id`=?, `political_status`=?,`phone_number`=?,`grade`=?,`edu_background`=?  WHERE `school_id` =?";
+	return sqlSession->executeUpdate(sql, "%s%s%s%s%s%i%s%s",obj.getpName(),obj.getCollege(),obj.getVoluntaryId(),obj.getPoliticalStatus(),obj.getPhoneNumber(),obj.getGrade(),obj.getEduBackground(),obj.getSchoolId());
 }
 
 int PersonInfoDAO::updateScore(const PersonInfoDO& obj)

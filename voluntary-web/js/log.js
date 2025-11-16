@@ -87,6 +87,29 @@ async function loadFeedback(qdate) {
   }
 }
 
+// 检查是否在允许的时间段内
+function isValidTimeSlot(begin_time, end_time) {
+  // 时间段列表
+  const timeSlots = [
+    ["09:00", "11:00"],
+    ["11:00", "13:00"],
+    ["13:00", "15:00"],
+    ["15:00", "17:00"],
+    ["17:00", "19:00"],
+    ["19:00", "21:00"],
+    ["21:00", "22:00"]
+  ];
+
+  // 检查提交的时间段是否在允许的时间段列表中
+  for (const [start, end] of timeSlots) {
+    if (begin_time === start && end_time === end) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 // 普通用户自动填充新增表单
 async function fillUserInfo(today) {
   const user = currentUser;
@@ -136,6 +159,12 @@ async function addFeedback() {
   const school_id = document.getElementById("add_school_id")?.value;
   const begin_time = document.getElementById("add_begin_time")?.value;
   const end_time = document.getElementById("add_end_time")?.value;
+
+  // 检查是否在允许的时间段内
+  if (!isValidTimeSlot(begin_time, end_time)) {
+    alert("只能在规定的值班时间段内提交违规日志！");
+    return;
+  }
 
   if (!qdate || !pname || !school_id) {
     alert("缺少必要信息！");
