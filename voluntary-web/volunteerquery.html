@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>志愿者查询（管理员专用）</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background-color: #3498db;
+            color: white;
+        }
+
+        .back-btn {
+            width: 100px;
+            background-color: #2ecc71;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .search-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            padding: 8px;
+            font-size: 1rem;
+            flex: 1;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .search-box button {
+            background-color: #2ecc71;
+            border: none;
+            padding: 8px 16px;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #3498db;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #777;
+            padding: 20px;
+        }
+
+        /* 分组显示小标签 */
+        .field-label {
+            font-weight: bold;
+            width: 120px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>志愿者查询（管理员）</h1>
+        <button class="back-btn" onclick="goBack()">返回</button>
+    </header>
+
+    <div class="container">
+
+        <!-- 权限提示 -->
+        <div id="noPermission" style="display:none; text-align:center; margin-top:40px;">
+            <h2 style="color:#e74c3c;">⚠ 无权限访问</h2>
+            <p>只有管理员可以查看志愿者信息。</p>
+            <button onclick="window.location.href='volunteer.html'"
+                style="margin-top:15px;padding:8px 16px;border:none;background:#3498db;color:white;border-radius:6px;">
+                返回
+            </button>
+        </div>
+
+        <!-- 管理员显示内容 -->
+        <div id="adminContent" style="display:none;">
+            <div class="search-box">
+                <input type="text" id="searchKey" placeholder="输入姓名 / 学号 / 手机号 搜索">
+                <button onclick="searchVolunteer()">搜索</button>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th>学号</th>
+                        <th>手机号</th>
+                        <th>性别</th>
+                        <th>学校/院系</th>
+                        <th>年级</th>
+                        <th>学历</th>
+                        <th>政治面貌</th>
+                        <th>义工ID</th>
+                        <th>义工总时长</th>
+                        <th>积分</th>
+                        <th>身份</th>
+                    </tr>
+                </thead>
+                <tbody id="volunteerTable">
+                    <tr>
+                        <td colspan="12" class="no-data">请先搜索志愿者</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/adminVolunteer.js"></script>
+</body>
+
+</html>

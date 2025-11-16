@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>个人信息</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <h1>个人信息</h1>
+  </header>
+
+  <div class="container">
+
+    <div class="info-item"><span>姓名：</span><span id="profile_name"></span></div>
+    <div class="info-item"><span>学号：</span><span id="profile_schoolid"></span></div>
+    <div class="info-item"><span>学院：</span><span id="profile_college"></span></div>
+    <div class="info-item"><span>志愿者编号：</span><span id="profile_vid"></span></div>
+    <div class="info-item"><span>政治面貌：</span><span id="profile_political"></span></div>
+    <div class="info-item"><span>电话：</span><span id="profile_phone"></span></div>
+    <div class="info-item"><span>性别：</span><span id="profile_gender"></span></div>
+    <div class="info-item"><span>年级：</span><span id="profile_grade"></span></div>
+    <div class="info-item"><span>教育背景：</span><span id="profile_edu"></span></div>
+
+    <div class="info-item"><span>志愿服务时长：</span><span id="profile_time"></span> 小时</div>
+
+    <div class="info-item"><span>测评分数：</span><span id="profile_score"></span> 分</div>
+
+    <button style="margin-top:15px; background-color:#3498db; color:white;"
+      onclick="window.location.href='main.html'">返回</button>
+
+    <button style="margin-top:15px;" onclick="window.location.href='profile_edit.html'">修改信息</button>
+    <button style="margin-top:15px; background-color:#c0392b;" onclick="logout()">退出登录</button>
+
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/profile.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", loadProfile);
+  </script>
+</body>
+
+</html>

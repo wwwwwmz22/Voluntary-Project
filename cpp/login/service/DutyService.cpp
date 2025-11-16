@@ -24,6 +24,23 @@ DutyListDTO::Wrapper DutyService::getOneInfo(const DutyQuery::Wrapper& query)
 	return result;
 }
 
+DutyListDTO::Wrapper DutyService::getOneDayInfo(const DutyOneDayQuery::Wrapper& query)
+{
+	auto result = DutyListDTO::createShared();
+	result->list = oatpp::List<DutyCountDTO::Wrapper>::createShared();
+
+	DutyDAO dao;
+	std::list<DutyResultDO> res = dao.selectOneDay(query);
+
+
+	for (auto sub : res) {
+		auto dto = DutyCountDTO::createShared();
+		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, school_id, SchoolId, qdate, Qdate, begin_time, BeginTime, end_time, EndTime, sign_in, SignIn, sign_out, SignOut);
+		result->list->push_back(dto);
+	}
+	return result;
+}
+
 bool DutyService::updateData(const DutyDTO::Wrapper& dto)
 {
 	DutyDO data;

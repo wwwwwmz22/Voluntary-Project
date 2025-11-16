@@ -19,7 +19,7 @@ PersonInfoJsonVO::Wrapper PersonController::executeQueryInfo(const PersonInfoQue
 	return jvo;
 }
 
-StringJsonVO::Wrapper PersonController::execModifyInfo(const PersonBaseInfoDTO::Wrapper& dto)
+StringJsonVO::Wrapper PersonController::execModifyInfo(const PersonUpdateInfoDTO::Wrapper& dto)
 {
 	auto jvo = StringJsonVO::createShared();
 	//参数非空校验
@@ -31,6 +31,26 @@ StringJsonVO::Wrapper PersonController::execModifyInfo(const PersonBaseInfoDTO::
 
 	PersonInfoServer service;
 	if (service.updateData(dto)) {
+		jvo->success(dto->school_id);
+	}
+	else {
+		jvo->fail(dto->school_id);
+	}
+	return jvo;
+}
+
+StringJsonVO::Wrapper PersonController::execModifyScore(const PersonUpdateScoreDTO::Wrapper& dto)
+{
+	auto jvo = StringJsonVO::createShared();
+	//参数非空校验
+	if (!dto->school_id )
+	{
+		jvo->init(String(-1), RS_PARAMS_INVALID);
+		return jvo;
+	}
+
+	PersonInfoServer service;
+	if (service.updateScore(dto)) {
 		jvo->success(dto->school_id);
 	}
 	else {

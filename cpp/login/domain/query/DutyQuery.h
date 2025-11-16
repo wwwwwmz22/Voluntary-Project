@@ -10,6 +10,18 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
+class DutyOneDayQuery :public oatpp::DTO {
+	//定义初始化
+	DTO_INIT(DutyOneDayQuery, DTO);
+	//查询学号
+	//查询日期
+	DTO_FIELD(String, qdate);
+	DTO_FIELD_INFO(qdate) {
+		info->description = ZH_WORDS_GETTER("duty.info.date");
+	}
+
+};
+
 class DutyQuery :public oatpp::DTO{
 	//定义初始化
 	DTO_INIT(DutyQuery, DTO);

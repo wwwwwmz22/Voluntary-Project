@@ -12,6 +12,15 @@ DutyJsonVO::Wrapper DutyController::executeQueryInfo(const DutyQuery::Wrapper& q
 	return jvo;
 }
 
+DutyJsonVO::Wrapper DutyController::executeQueryOneDayInfo(const DutyOneDayQuery::Wrapper& query)
+{
+	DutyService server;
+	auto result = server.getOneDayInfo(query);
+	auto jvo = DutyJsonVO::createShared();
+	jvo->success(result);
+	return jvo;
+}
+
 StringJsonVO::Wrapper DutyController::execAdd(const AddDutyDTO::Wrapper& dtolist)
 {
 	auto jvo = StringJsonVO::createShared();

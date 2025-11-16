@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>志愿者招募</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: "Microsoft YaHei", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: white;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+
+    .top-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .top-buttons button {
+      background-color: #2ecc71;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .logout-btn {
+      background-color: #e74c3c !important;
+    }
+
+    nav {
+      background-color: #f4f4f4;
+      padding: 10px 20px;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    nav li {
+      margin: 0;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>志愿者招募</h1>
+    <div class="top-buttons">
+      <button onclick="window.location.href='main.html'">返回首页</button>
+      <button onclick="window.location.href='profile.html'">个人中心</button>
+
+      <!-- 新增退出登录按钮 -->
+      <button class="logout-btn" onclick="logout()">退出登录</button>
+    </div>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="signup.html">报名入口</a></li>
+      <li><a href="duty.html">值班表查询</a></li>
+      <li><a href="guide.html">工作指南</a></li>
+      <li><a href="log.html">值班日志</a></li>
+      <li><a href="checkin.html">签到签退</a></li>
+      <li><a href="volunteerquery.html">志愿者查询</a></li>
+      <li><a href="export.html">导出义工时表</a></li>
+    </ul>
+  </nav>
+
+  <script>
+    function logout() {
+      if (!confirm("确定要退出登录吗？")) return;
+
+      // 清空所有登录相关信息（确保彻底注销）
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      localStorage.removeItem("access_token");
+
+      sessionStorage.clear();
+
+      // 跳转登录页
+      window.location.href = "login.html";
+    }
+  </script>
+
+</body>
+
+</html>

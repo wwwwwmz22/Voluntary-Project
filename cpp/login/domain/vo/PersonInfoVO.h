@@ -15,8 +15,8 @@
 /**
  * 定义用户信息显示JsonVO对象，用于响应给客户端
  */
-class PersonInfoJsonVO:public JsonVO<PersonInfoDTO::Wrapper>{
-	DTO_INIT(PersonInfoJsonVO,JsonVO<PersonInfoDTO::Wrapper>)
+class PersonInfoJsonVO:public JsonVO<PersonAllInfoDTO::Wrapper>{
+	DTO_INIT(PersonInfoJsonVO,JsonVO<PersonAllInfoDTO::Wrapper>)
 };
 
 #include OATPP_CODEGEN_END(DTO)

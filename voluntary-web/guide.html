@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工作指南</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* 顶部栏 */
+        header {
+            height: 60px;
+            background-color: #7fd6ff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+        }
+
+        .title {
+            font-size: 1.5rem;
+        }
+
+        /* 右侧按钮区域 */
+        .right-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            background-color: white;
+            color: #007ACC;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        iframe {
+            width: 100%;
+            height: calc(100% - 60px);
+            border: none;
+        }
+
+        /* 手机适配 */
+        @media (max-width: 768px) {
+            header {
+                height: 50px;
+            }
+
+            .title {
+                font-size: 1.2rem;
+            }
+
+            button {
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+
+            iframe {
+                height: calc(100% - 50px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="title">工作指南</div>
+
+        <div class="right-buttons">
+            <button onclick="window.history.back()">返回</button>
+
+            <!-- 下载按钮 -->
+            <button onclick="downloadPDF()">下载</button>
+        </div>
+    </header>
+
+    <iframe id="pdfFrame" src="docs/work_guide.pdf"></iframe>
+
+    <script>
+        function downloadPDF() {
+            const link = document.createElement('a');
+            link.href = "docs/work_guide.pdf";
+            link.download = "工作指南.pdf";
+            link.click();
+        }
+    </script>
+</body>
+
+</html>

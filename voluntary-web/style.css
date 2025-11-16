@@ -1,0 +1,185 @@
+/* ========== Global ========== */
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #f2f7ff;
+  /* 明亮柔和的背景 */
+  color: #333;
+}
+
+/* ========== Header ========== */
+header {
+  background: linear-gradient(to right, #72c6ff, #89e3ff);
+  padding: 25px 0;
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.logout-btn {
+  position: fixed;
+  /* 固定在屏幕上，而不是 header 内 */
+  width: 200px;
+  height: 40px;
+  right: 20px;
+  bottom: 20px;
+  padding: 6px 12px;
+  background-color: #ff6666;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: inline-block;
+  z-index: 999;
+  /* 避免被其他元素盖住 */
+}
+
+.logout-btn:hover {
+  background-color: #ff4444;
+}
+
+/* ========== Navigation Bar ========== */
+nav {
+  background: #e8f4ff;
+  padding: 12px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: #007acc;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+  color: #005f99;
+}
+
+/* ========== Containers ========== */
+.container {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  width: 600px;
+  margin: 50px auto;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* ========== Form Controls ========== */
+input,
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cfd9e2;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-top: 5px;
+  background: #f8fbff;
+}
+
+input:focus,
+select:focus {
+  border-color: #5ab1ff;
+  outline: none;
+  box-shadow: 0 0 6px rgba(90, 177, 255, 0.3);
+}
+
+label {
+  font-weight: 600;
+  color: #333;
+}
+
+/* ========== Buttons ========== */
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #4CAF50;
+  color: #fff;
+  transition: 0.2s;
+}
+
+button:hover {
+  background-color: #43a047;
+}
+
+button.secondary {
+  background: #2196F3;
+}
+
+button.secondary:hover {
+  background: #1976D2;
+}
+
+button.danger {
+  background: #e74c3c;
+}
+
+button.danger:hover {
+  background: #c0392b;
+}
+
+/* ========== Tables ========== */
+.table-container {
+  margin: 20px auto;
+  width: 90%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+th {
+  background: #72c6ff;
+  color: #fff;
+  padding: 10px;
+  font-size: 15px;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+tr:nth-child(even) {
+  background: #f7fbff;
+}
+
+/* ========== Status Colors ========== */
+.available {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.full {
+  color: #c62828;
+  font-weight: bold;
+}

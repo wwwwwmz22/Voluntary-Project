@@ -18,6 +18,8 @@ public:
 	//uint64_t count(const DutyQuery::Wrapper& query);
 	//通过时间段查询人数
 	std::list<DutyResultDO> selectOneDayById(const DutyQuery::Wrapper& query);
+	//通过时间查询人数
+	std::list<DutyResultDO> selectOneDay(const DutyOneDayQuery::Wrapper & query);
 	//修改数据
 	int update(const DutyDO& obj);
 	//保存数据

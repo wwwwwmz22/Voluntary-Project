@@ -21,6 +21,12 @@ public:
 		data.setVoluntaryId(resultSet->getString(6));
 		data.setPoliticalStatus(resultSet->getString(7));
 		data.setVoluntaryTime(resultSet->getUInt64(9));
+		data.setCollege(resultSet->getString(5));
+		data.setGender(resultSet->getString(10));
+		data.setGrade(resultSet->getUInt64(11));
+		data.setIdentity(resultSet->getString(12));
+		data.setEduBackground(resultSet->getString(13));
+		data.setScore(resultSet->getUInt64(14));
 		return data;
 	}
 
@@ -38,6 +44,12 @@ public:
 		data->setVoluntaryId(resultSet->getString(6));
 		data->setPoliticalStatus(resultSet->getString(7));
 		data->setVoluntaryTime(resultSet->getUInt64(9));
+		data->setCollege(resultSet->getString(5));
+		data->setGender(resultSet->getString(10));
+		data->setGrade(resultSet->getUInt64(11));
+		data->setIdentity(resultSet->getString(12));
+		data->setEduBackground(resultSet->getString(13));
+		data->setScore(resultSet->getUInt64(14));
 		return data;
 	}
 

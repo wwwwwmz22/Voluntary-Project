@@ -21,6 +21,8 @@ class PersonInfoDO{
 	CC_SYNTHESIZE(uint64_t, grade, Grade);
 	CC_SYNTHESIZE(string, identity, Identity);
 	CC_SYNTHESIZE(string, edu_background, EduBackground);
+	CC_SYNTHESIZE(uint64_t, score, Score);
+
 public:
 	PersonInfoDO() {
 		id = 0;
@@ -36,6 +38,7 @@ public:
 		grade = 0;
 		identity = "";
 		edu_background = "";
+		score = 0;
 	}
 
 };

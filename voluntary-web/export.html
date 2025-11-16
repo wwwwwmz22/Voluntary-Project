@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>导出义工时表（管理员）</title>
+
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: "Microsoft YaHei", Arial, sans-serif;
+      background-color: #f7f7f7;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background-color: #3498db;
+      color: white;
+      font-size: 1.3rem;
+    }
+
+    /* 内容居中 */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* 水平居中 */
+      justify-content: center;
+      /* 垂直居中 */
+      height: calc(100vh - 60px);
+      /* 视口高度减去 header 高度 */
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      /* 垂直排列元素 */
+      align-items: center;
+      /* 水平居中 */
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      /* label 左对齐 */
+      margin-bottom: 20px;
+      width: 260px;
+      /* 固定宽度保证 label 和输入框对齐 */
+    }
+
+    .form-group label {
+      margin-bottom: 5px;
+    }
+
+    .form-group input[type="date"] {
+      padding: 8px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* 按钮居中 */
+      gap: 10px;
+      width: 100%;
+      max-width: 260px;
+    }
+
+    .button-group button {
+      width: 100%;
+      padding: 10px 18px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .export-btn {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    .back-btn {
+      background-color: #3498db;
+      color: white;
+    }
+
+    #export_result {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    #noPermission {
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    #noPermission h2 {
+      color: #e74c3c;
+    }
+
+    #noPermission button {
+      margin-top: 15px;
+      padding: 8px 14px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <header>导出义工时表（管理员）</header>
+
+  <!-- ❗权限不足时显示 -->
+  <div id="noPermission" style="display:none;">
+    <h2>⚠ 无权限访问</h2>
+    <p>此功能仅限管理员使用。</p>
+    <button onclick="window.location.href='volunteer.html'">返回</button>
+  </div>
+
+  <!-- ✔ 只有管理员显示 -->
+  <div class="main-content">
+    <div id="adminContent" class="container" style="display:none;">
+      <div class="form-group">
+        <label for="begin_date">开始日期：</label>
+        <input type="date" id="begin_date">
+      </div>
+
+      <div class="form-group">
+        <label for="end_date">结束日期：</label>
+        <input type="date" id="end_date">
+      </div>
+
+      <div class="button-group">
+        <button class="export-btn" onclick="exportVolunteerHours()">导出义工时长表</button>
+        <button class="back-btn" onclick="window.location.href='volunteer.html'">返回</button>
+      </div>
+
+      <div id="export_result"></div>
+    </div>
+  </div>
+
+
+  <script src="js/config.js"></script>
+  <script src="js/export.js"></script>
+</body>
+
+</html>

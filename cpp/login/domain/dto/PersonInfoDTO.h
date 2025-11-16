@@ -10,6 +10,36 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
+class PersonUpdateScoreDTO : public oatpp::DTO {
+	DTO_INIT(PersonUpdateScoreDTO, DTO);
+	//学号
+	API_DTO_FIELD_DEFAULT(String, school_id, ZH_WORDS_GETTER("person.info.name"));
+	// 得分
+	API_DTO_FIELD_DEFAULT(UInt64, score, ZH_WORDS_GETTER("person.info.score"));
+};
+
+class PersonUpdateInfoDTO : public oatpp::DTO {
+	DTO_INIT(PersonUpdateInfoDTO, DTO);
+	//学号
+	API_DTO_FIELD_DEFAULT(String, school_id, ZH_WORDS_GETTER("person.info.name"));
+	//姓名
+	API_DTO_FIELD_DEFAULT(String, pname, ZH_WORDS_GETTER("person.info.name"));
+	//学院
+	API_DTO_FIELD_DEFAULT(String, college, ZH_WORDS_GETTER("person.info.college"));
+	//义工号
+	API_DTO_FIELD_DEFAULT(String, voluntary_id, ZH_WORDS_GETTER("person.info.volunid"));
+	//政治面貌
+	API_DTO_FIELD_DEFAULT(String, political_status, ZH_WORDS_GETTER("person.info.indentity"));
+	//手机号
+	API_DTO_FIELD_DEFAULT(String, phone_number, ZH_WORDS_GETTER("person.info.phone"));
+	//年级
+	API_DTO_FIELD_DEFAULT(UInt64, grade, ZH_WORDS_GETTER("person.info.grade"));
+	//学历
+	API_DTO_FIELD_DEFAULT(String, edu_background, ZH_WORDS_GETTER("person.info.edubackground"));
+	//密码
+	API_DTO_FIELD_DEFAULT(String, pasword, ZH_WORDS_GETTER("person.info.psw"));
+};
+
 /**
  * 定义显示用户信息的数据传输模型
  */
@@ -45,6 +75,10 @@ class PersonAllInfoDTO :public PersonInfoDTO {
 	API_DTO_FIELD_DEFAULT(UInt64, grade, ZH_WORDS_GETTER("person.info.grade"));
 	//学历
 	API_DTO_FIELD_DEFAULT(String, edu_background, ZH_WORDS_GETTER("person.info.edubackground"));
+	// 得分
+	API_DTO_FIELD_DEFAULT(UInt64, score, ZH_WORDS_GETTER("person.info.score"));
+    // 身份
+	API_DTO_FIELD_DEFAULT(String, identity, ZH_WORDS_GETTER("person.info.identity"));
 };
 
 #include OATPP_CODEGEN_END(DTO)

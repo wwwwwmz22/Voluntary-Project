@@ -41,7 +41,12 @@ public:
 	//定义修改用户信息接口描述
 	API_DEF_ENDPOINT_INFO(ZH_WORDS_GETTER("person.update"), modifyInfo, StringJsonVO::Wrapper);
 	//定义修改用户信息接口处理
-	API_HANDLER_ENDPOINT(API_M_PUT, "login/modifyuserinfo", modifyInfo, BODY_DTO(PersonBaseInfoDTO::Wrapper, dto), execModifyInfo(dto));
+	API_HANDLER_ENDPOINT(API_M_PUT, "login/modifyuserinfo", modifyInfo, BODY_DTO(PersonUpdateInfoDTO::Wrapper, dto), execModifyInfo(dto));
+
+	//定义修改用户信息接口描述
+	API_DEF_ENDPOINT_INFO(ZH_WORDS_GETTER("person.updatescore"), modifyScore, StringJsonVO::Wrapper);
+	//定义修改用户信息接口处理
+	API_HANDLER_ENDPOINT(API_M_PUT, "login/modifyuserscore", modifyScore, BODY_DTO(PersonUpdateScoreDTO::Wrapper, dto), execModifyScore(dto));
 
 	//定义新增用户信息接口描述
 	API_DEF_ENDPOINT_INFO(ZH_WORDS_GETTER("person.add"), addInfo, StringJsonVO::Wrapper);
@@ -53,7 +58,10 @@ private:
 	PersonInfoJsonVO::Wrapper executeQueryInfo(const PersonInfoQuery::Wrapper& query);
 
 	//修改用户信息
-	StringJsonVO::Wrapper execModifyInfo(const PersonBaseInfoDTO::Wrapper& dto);
+	StringJsonVO::Wrapper execModifyInfo(const PersonUpdateInfoDTO::Wrapper& dto);
+
+	//修改用户信息
+	StringJsonVO::Wrapper execModifyScore(const PersonUpdateScoreDTO::Wrapper& dto);
 
 	//新增用户信息
 	StringJsonVO::Wrapper execAddUser(const PersonAllInfoDTO::Wrapper& dto);

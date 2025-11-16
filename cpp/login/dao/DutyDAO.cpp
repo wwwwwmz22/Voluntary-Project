@@ -37,6 +37,19 @@ std::list<DutyResultDO> DutyDAO::selectOneDayById(const DutyQuery::Wrapper& quer
 	return sqlSession->executeQuery<DutyResultDO>(sql,mapper, params);
 }
 
+std::list<DutyResultDO> DutyDAO::selectOneDay(const DutyOneDayQuery::Wrapper& query)
+{
+	SqlParams params;
+	string sql = "SELECT school_id,qdate,begin_time,end_time,sign_in,sign_out "
+		"FROM duty_recording "
+		"WHERE qdate = ? "
+		"ORDER BY begin_time";
+	SQLPARAMS_PUSH(params, "s", std::string, query->qdate.getValue(""));
+	//²éÑ¯
+	DutyMapper mapper;
+	return sqlSession->executeQuery<DutyResultDO>(sql, mapper, params);
+}
+
 int DutyDAO::update(const DutyDO& obj)
 {
 	string sql = "UPDATE `duty_recording` SET `sign_in`=?,`sign_out`=? WHERE `school_id`=? AND `qdate`=? AND `begin_time`=? AND `end_time`=?";
@@ -112,7 +125,9 @@ std::list<DutyExportDO> DutyDAO::selectDutyExport(const DutyExportQuery::Wrapper
         INNER JOIN
             vp_login l ON d.school_id = l.school_id
         WHERE
-            d.qdate >= ? AND d.qdate <= ?
+            d.qdate >= ? AND d.qdate <= ? 
+			AND d.sign_in = 1
+            AND d.sign_out = 1
         ORDER BY
             d.qdate ASC, d.begin_time ASC
     )";

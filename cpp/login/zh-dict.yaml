@@ -1,6 +1,7 @@
 person:
  query: 查询用户信息
  update: 更改用户信息
+ updatescore: 更改用户分数
  add: 新增用户信息
  info:
   stuid: 学号
@@ -8,16 +9,19 @@ person:
   name: 姓名
   phone: 手机
   volunid: 义工号
-  identity: 政治面貌
+  political_status: 政治面貌
   time: 志愿时长
   college: 学院
   gender: 性别
   grade: 年级
   edubackgound: 学历
   id: 主键id
+  score: 分数
+  identity: 身份
 
 duty:
  query: 查询报名信息
+ queryoneday: 查询一天的报名信息
  add: 批量新增报名信息
  delete: 删除报名信息
  update: 修改报名状态信息

@@ -13,6 +13,8 @@ class DutyService{
 public:
 	//查询一个人数据
 	DutyListDTO::Wrapper getOneInfo(const DutyQuery::Wrapper& query);
+	//查询一天数据
+	DutyListDTO::Wrapper getOneDayInfo(const DutyOneDayQuery::Wrapper& query);
 	//修改信息
 	bool updateData(const DutyDTO::Wrapper& dto);
 	//增加信息

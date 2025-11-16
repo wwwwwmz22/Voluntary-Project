@@ -39,6 +39,25 @@ public:
 		API_HANDLER_RESP_VO(executeQueryInfo(query));
 	}
 
+	//定义查询一天报名信息接口端点描述
+	ENDPOINT_INFO(queryOneDayDuty) {
+		//定义标题
+		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("duty.queryoneday"));
+		//定义相应参数格式
+		API_DEF_ADD_RSP_JSON_WRAPPER(DutyJsonVO);
+		//定义其他参数
+		API_DEF_ADD_QUERY_PARAMS(String, "qdate", ZH_WORDS_GETTER("duty.info.date"), "2025-11-15", false);
+	}
+
+	//定义查询报名信息接口端点处理
+	ENDPOINT(API_M_GET, "duty/getOnDayDutyInfo", queryOneDayDuty, QUERIES(QueryParams, params)) {
+		//解析查询参数
+		auto query = DutyOneDayQuery::createShared();
+		query->qdate = params.get("qdate");
+		//呼叫执行函数响应结果
+		API_HANDLER_RESP_VO(executeQueryOneDayInfo(query));
+	}
+
 	//定义新增报名信息接口描述
 	API_DEF_ENDPOINT_INFO(ZH_WORDS_GETTER("duty.add"), addInfo, StringJsonVO::Wrapper);
 	//定义新增报名信息接口处理
@@ -95,6 +114,8 @@ public:
 private:
 	//查询报名信息
 	DutyJsonVO::Wrapper executeQueryInfo(const DutyQuery::Wrapper& query);
+	//查询报名信息
+	DutyJsonVO::Wrapper executeQueryOneDayInfo(const DutyOneDayQuery::Wrapper& query);
 	//新增报名信息
 	StringJsonVO::Wrapper execAdd(const AddDutyDTO::Wrapper& dtolist);
 	//修改信息

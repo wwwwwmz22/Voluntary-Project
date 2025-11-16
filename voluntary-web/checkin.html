@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>志愿者签到签退</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 15px;
+      background-color: #3498db;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .top-buttons button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: white;
+      background-color: #2980b9;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 15px;
+      width: 700px;
+      margin: 50px auto;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div>志愿者签到签退</div>
+    <div class="top-buttons">
+      <button onclick="window.history.back()">返回上一页</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="form-group">
+      <label for="qdate">选择日期：</label>
+      <input type="date" id="qdate">
+      <button onclick="loadCheckinInfo()">查询</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>学号</th>
+          <th>日期</th>
+          <th>时间段</th>
+          <th>签到状态</th>
+          <th>签退状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody id="checkin_table_body"></tbody>
+    </table>
+  </div>
+  <script src="js/config.js"></script>
+  <script src="js/checkin.js"></script>
+</body>
+
+</html>

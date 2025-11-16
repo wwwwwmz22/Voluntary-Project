@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>值班表查询</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ---------------- header ---------------- */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 15px;
+      background-color: #3498db;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .top-buttons button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: white;
+      background-color: #2980b9;
+    }
+
+    /* ---------------- 容器 ---------------- */
+    .container {
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 0 10px;
+    }
+
+    .form-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      margin-right: 10px;
+      min-width: 80px;
+    }
+
+    .form-group input[type="date"] {
+      flex: 1;
+      padding: 5px 8px;
+      font-size: 1rem;
+      margin-right: 10px;
+    }
+
+    .form-group button {
+      padding: 5px 12px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+      background-color: #27ae60;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* ---------------- 表格 ---------------- */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #3498db;
+    }
+
+    /* 高亮当前用户名字 */
+    .highlight {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+
+      th,
+      td {
+        font-size: 0.85rem;
+        padding: 6px;
+      }
+
+      .form-group {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .form-group input,
+      .form-group button {
+        width: 100%;
+        margin: 5px 0;
+      }
+
+      .top-buttons {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .top-buttons button {
+        margin: 5px 0 0 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div>值班表查询</div>
+    <div class="top-buttons">
+      <button onclick="window.history.back()">返回上一页</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="form-group">
+      <label for="qdate">选择日期：</label>
+      <input type="date" id="qdate">
+      <button onclick="loadDutySchedule()">查询</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>日期</th>
+          <th>时间段</th>
+          <th>志愿者名单</th>
+        </tr>
+      </thead>
+      <tbody id="schedule_table_body"></tbody>
+    </table>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/duty.js"></script>
+  <script>
+    // 页面加载时默认显示今天
+    document.addEventListener("DOMContentLoaded", () => {
+      const dateInput = document.getElementById("qdate");
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      const todayStr = `${yyyy}-${mm}-${dd}`;
+      dateInput.value = todayStr;
+
+      loadDutySchedule();
+    });
+  </script>
+</body>
+
+</html>

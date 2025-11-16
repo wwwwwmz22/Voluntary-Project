@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>志愿者管理系统</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <h1>志愿者管理系统</h1>
+    <button id="logoutBtn" class="logout-btn">退出登录</button>
+  </header>
+  <nav>
+    <ul>
+      <li><a href="volunteer.html">志愿者招募</a></li>
+      <li><a href="building.html">楼委会管理</a></li>
+      <li><a href="party.html">党群服务中心</a></li>
+      <li><a href="volunteertest.html">志愿者测评</a></li>
+      <li><a href="profile.html">个人信息</a></li>
+    </ul>
+  </nav>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+
+</body>
+<script>
+  document.getElementById("logoutBtn").addEventListener("click", function () {
+
+    // === 清除本地登录信息 ===
+    localStorage.removeItem("token");
+    localStorage.removeItem("userInfo");
+    sessionStorage.clear();
+
+    // 如有全局 JS 内存变量（示例）
+    if (window.currentUser) window.currentUser = null;
+
+    // 可选：通知后端注销（如果你的后端支持）
+    // fetch(API_BASE_URL + "/logout", { method: "POST", credentials: "include" });
+
+    alert("已退出登录！");
+    window.location.href = "login.html"; // 跳转回登录页
+  });
+</script>
+
+</html>

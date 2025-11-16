@@ -17,6 +17,8 @@ public:
 	PtrPersonInfoDO selectByIdAndPasword(const PersonInfoQuery::Wrapper& stuid);
 	//修改数据
 	int update(const PersonInfoDO& obj);
+	//修改分数
+	int updateScore(const PersonInfoDO& obj);
 	//保存数据
 	int insert(const PersonInfoDO& obj);
 

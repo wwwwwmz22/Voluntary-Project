@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>值班日志管理</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== 页面头部 ===== */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background-color: #3498db;
+      color: white;
+      font-size: 1.4rem;
+    }
+
+    .top-buttons button {
+      margin-left: 10px;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: white;
+      background-color: #2980b9;
+    }
+
+    /* ===== 页面主体 ===== */
+    .container {
+      margin: 20px auto;
+      padding: 20px;
+      width: 600px;
+      margin: auto;
+    }
+
+    /* ===== 表单 ===== */
+    .form-group {
+      margin: 12px 0;
+    }
+
+    label {
+      display: inline-block;
+      width: 110px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select,
+    textarea {
+      padding: 6px;
+      width: 260px;
+      max-width: 100%;
+    }
+
+    input[readonly] {
+      background-color: #f5f5f5;
+    }
+
+    textarea {
+      resize: vertical;
+      width: calc(100% - 120px);
+      margin-top: 6px;
+    }
+
+    /* ===== 表格外层，加滚动条 ===== */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 15px;
+    }
+
+    /* ===== 表格 ===== */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      /* 避免列宽无限变大 */
+    }
+
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+      background-color: white;
+      word-break: break-word;
+      /* 自动换行 */
+    }
+
+    th {
+      background-color: #72c6ff;
+    }
+
+    /* 隐藏元素 */
+    .hidden {
+      display: none;
+    }
+
+    /* 提交按钮 */
+    #btn_add_feedback,
+    #btn_load_feedback {
+      padding: 8px 16px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #btn_add_feedback:hover,
+    #btn_load_feedback:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div>值班日志管理</div>
+    <div class="top-buttons">
+      <button onclick="window.history.back()">返回上一页</button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- 管理员查看模块 -->
+    <div id="view_section">
+      <div class="form-group">
+        <label for="qdate">选择日期：</label>
+        <input type="date" id="qdate">
+        <button id="btn_load_feedback">查询违规记录</button>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>姓名</th>
+              <th>学号</th>
+              <th>时间段</th>
+              <th>卫生</th>
+              <th>噪音</th>
+              <th>饮食</th>
+              <th>座位</th>
+              <th>其他</th>
+            </tr>
+          </thead>
+          <tbody id="feedback_table_body"></tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- 普通用户新增模块 -->
+    <div id="add_section">
+      <h3 style="text-align:center;">新增违规记录</h3>
+
+      <div class="form-group">
+        <label>日期：</label>
+        <input type="text" id="add_qdate" readonly>
+      </div>
+
+      <div class="form-group">
+        <label>姓名：</label>
+        <input type="text" id="add_pname" readonly>
+      </div>
+
+      <div class="form-group">
+        <label>学号：</label>
+        <input type="text" id="add_school_id" readonly>
+      </div>
+
+      <div class="form-group">
+        <label>开始时间：</label>
+        <input type="text" id="add_begin_time" readonly>
+      </div>
+
+      <div class="form-group">
+        <label>结束时间：</label>
+        <input type="text" id="add_end_time" readonly>
+      </div>
+
+      <div class="form-group">
+        <label>卫生问题：</label>
+        <select id="add_isclean">
+          <option value="否">否</option>
+          <option value="是">是</option>
+        </select>
+        <br>
+        <textarea id="add_clean_content" class="hidden" placeholder="请输入具体内容" rows="3" style="width:100%;"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>噪音问题：</label>
+        <select id="add_isnoise">
+          <option value="否">否</option>
+          <option value="是">是</option>
+        </select>
+        <br>
+        <textarea id="add_noise_content" class="hidden" placeholder="请输入具体内容" rows="3" style="width:100%;"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>饮食问题：</label>
+        <select id="add_isfood">
+          <option value="否">否</option>
+          <option value="是">是</option>
+        </select>
+        <br>
+        <textarea id="add_food_content" class="hidden" placeholder="请输入具体内容" rows="3" style="width:100%;"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>座位问题：</label>
+        <select id="add_isseat">
+          <option value="否">否</option>
+          <option value="是">是</option>
+        </select>
+        <br>
+        <textarea id="add_seat_content" class="hidden" placeholder="请输入具体内容" rows="3" style="width:100%;"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>其他问题：</label>
+        <textarea id="add_isother" placeholder="其他备注（可选）" rows="3" style="width:100%;"></textarea>
+      </div>
+
+      <button id="btn_add_feedback">提交记录</button>
+    </div>
+
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/log.js"></script>
+</body>
+
+</html>
