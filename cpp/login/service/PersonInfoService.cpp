@@ -35,7 +35,7 @@ PersonAllInfoDTO::Wrapper PersonInfoServer::getByIdAndPasword(const PersonInfoQu
 bool PersonInfoServer::updateData(const PersonUpdateInfoDTO::Wrapper& dto)
 {
 	PersonInfoDO data;
-	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, SchoolId,  school_id, pName,pname, College, college, Pasword, pasword, VoluntaryId,voluntary_id,PhoneNumber,phone_number, PoliticalStatus,  political_status , Grade, grade, EduBackground, edu_background );
+	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, SchoolId,  school_id, pName,pname, College, college, VoluntaryId,voluntary_id,PhoneNumber,phone_number, PoliticalStatus,  political_status , Grade, grade, EduBackground, edu_background );
 	PersonInfoDAO dao;
 	return dao.update(data) == 1;
 }

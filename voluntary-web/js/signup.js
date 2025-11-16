@@ -126,6 +126,13 @@ async function registerDuty(qdate, begin_time, end_time) {
     const user = getCurrentUser();
     if (!user) return alert("请先登录");
 
+    // 检查用户得分是否达到90分
+    const userScore = Number(user.score || 0);
+    if (userScore < 90) {
+        alert(`您的得分是 ${userScore} 分，未达到90分要求，请先去答题提高分数！`);
+        return;
+    }
+
     const key = `${begin_time}-${end_time}`;
 
     try {

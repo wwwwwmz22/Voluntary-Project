@@ -14,21 +14,43 @@ examQuestions.forEach((q, index) => {
     const div = document.createElement("div");
     div.className = "question";
 
+    // 根据题目类型确定输入框类型
+    let inputType = "radio";
+    if (q.type === "多选题") {
+        inputType = "checkbox";
+    } else if (q.type === "判断题") {
+        inputType = "radio";
+    }
+
     let optHtml = "";
     const opts = ["A", "B", "C", "D"];
 
-    opts.forEach((opt, i) => {
-        if (q.options[i]) {
-            optHtml += `
-                <label>
-                    <input type="radio" name="q${index}" value="${opt}">
-                    ${opt}. ${q.options[i]}
-                </label>`;
-        }
-    });
+    // 处理判断题的特殊选项
+    if (q.type === "判断题") {
+        optHtml = `
+            <label>
+                <input type="${inputType}" name="q${index}" value="A">
+                A. 正确
+            </label>
+            <label>
+                <input type="${inputType}" name="q${index}" value="B">
+                B. 错误
+            </label>`;
+    } else {
+        // 处理单选题和多选题
+        opts.forEach((opt, i) => {
+            if (q.options[i]) {
+                optHtml += `
+                    <label>
+                        <input type="${inputType}" name="q${index}" value="${opt}">
+                        ${opt}. ${q.options[i]}
+                    </label>`;
+            }
+        });
+    }
 
     div.innerHTML = `
-        <p><strong>第 ${index + 1} 题：</strong> ${q.question}</p>
+        <p><strong>第 ${index + 1} 题（${q.type}）：</strong> ${q.question}</p>
         <div class="options">${optHtml}</div>
     `;
 
@@ -63,11 +85,24 @@ async function submitExam() {
     let score = 0;
 
     examQuestions.forEach((q, i) => {
-        const selected = document.querySelector(`input[name="q${i}"]:checked`);
-        const ans = selected ? selected.value : null;
+        // 根据题目类型获取答案
+        if (q.type === "多选题") {
+            // 多选题：获取所有选中的选项
+            const selected = document.querySelectorAll(`input[name="q${i}"]:checked`);
+            const ans = Array.from(selected).map(el => el.value).sort().join('');
 
-        if (ans === q.answer) {
-            score += q.score;
+            // 多选题答案需要排序后比较
+            if (ans === q.answer.split('').sort().join('')) {
+                score += q.score;
+            }
+        } else {
+            // 单选题和判断题：获取选中的选项
+            const selected = document.querySelector(`input[name="q${i}"]:checked`);
+            const ans = selected ? selected.value : null;
+
+            if (ans === q.answer) {
+                score += q.score;
+            }
         }
     });
 
