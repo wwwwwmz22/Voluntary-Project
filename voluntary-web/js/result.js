@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             // 直接使用 fetch 而不是 apiRequest 来更好地控制请求
-            const response = await fetch(`http://172.24.44.217:8090/login/modifyuserscore`, {
+            const response = await fetch(`${backendUrl}/login/modifyuserscore`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"

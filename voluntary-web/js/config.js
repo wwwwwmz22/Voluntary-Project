@@ -1,7 +1,7 @@
 // ================= 全局配置 =================
 
 // 后端 API 地址（修改此处即可）
-const backendUrl = "http://172.24.44.217:8090";
+window.backendUrl = "http://172.24.169.216:8090";
 
 // 统一请求函数
 async function apiRequest(endpoint, options = {}) {
