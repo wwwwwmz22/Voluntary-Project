@@ -43,6 +43,9 @@ const QUESTIONS = [
         "score": 1,
         "question": "保洁阿姨每天打扫时间是 (  )",
         "options": [
+            "8:00",
+            "9:00",
+            "8:30",
             "不固定"
         ],
         "answer": "B",
@@ -157,7 +160,10 @@ const QUESTIONS = [
         "score": 1,
         "question": "巡更系统登录密码是（ ）",
         "options": [
-            "000000"
+            "147258",
+            "258369",
+            "000000",
+            "369258"
         ],
         "answer": "B",
         "analysis": NaN
@@ -231,7 +237,12 @@ const QUESTIONS = [
         "type": "单选题",
         "score": 1,
         "question": "每天早上几点正式开门？（ ）",
-        "options": [],
+        "options": [
+            "8:30",
+            "9:00",
+            "9:30",
+            "8:00"
+        ],
         "answer": "B",
         "analysis": NaN
     },
@@ -317,7 +328,12 @@ const QUESTIONS = [
         "type": "单选题",
         "score": 1,
         "question": "21:00-22:00时段招募（ ）名志愿者",
-        "options": [],
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4"
+        ],
         "answer": "C",
         "analysis": NaN
     },
@@ -404,7 +420,7 @@ const QUESTIONS = [
         "score": 1,
         "question": "阶梯活动区投影仪遥控器需按（ ）键开机",
         "options": [
-            " ON/STAND-BY",
+            "ON/STAND-BY",
             "INPUT",
             "MENU",
             "ESC"
