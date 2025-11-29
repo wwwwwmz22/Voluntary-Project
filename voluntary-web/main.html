@@ -4,45 +4,89 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>志愿者管理系统</title>
+  <title>友邻共享空间</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: white;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+
+    .top-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .top-buttons button {
+      background-color: #2ecc71;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .logout-btn {
+      background-color: #e74c3c !important;
+    }
+  </style>
 </head>
 
 <body>
   <header>
-    <h1>志愿者管理系统</h1>
-    <button id="logoutBtn" class="logout-btn">退出登录</button>
+    <h1>友邻共享空间</h1>
+    <div class="top-buttons">
+      <button onclick="window.location.href='profile.html'">个人中心</button>
+      <button class="logout-btn" onclick="logout()">退出登录</button>
+    </div>
   </header>
-  <nav>
-    <ul>
-      <li><a href="volunteer.html">志愿者招募</a></li>
-      <li><a href="building.html">楼委会管理</a></li>
-      <li><a href="party.html">党群服务中心</a></li>
-      <li><a href="volunteertest.html">志愿者测评</a></li>
-      <li><a href="profile.html">个人信息</a></li>
-    </ul>
-  </nav>
+
+  <div class="container">
+    <div class="card">
+      <img src="images/volunteer.jpg" alt="友邻共享空间志愿者招募" style="width:100%; aspect-ratio: 3/2; object-fit: cover;">
+      <div class="card-content">
+        <h3>友邻共享空间志愿者招募</h3>
+        <button class="enter-btn" onclick="window.location.href='volunteer.html'">进入报名</button>
+      </div>
+    </div>
+  </div>
+
   <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
+  <script>
+    function logout() {
+      if (!confirm("确定要退出登录吗？")) return;
+
+      // === 彻底清除所有本地登录信息 ===
+      // 清除localStorage中的用户数据
+      localStorage.removeItem("userData");
+      localStorage.removeItem("token");
+      localStorage.removeItem("userInfo");
+      localStorage.removeItem("user");
+      localStorage.removeItem("access_token");
+
+      // 清除sessionStorage
+      sessionStorage.clear();
+
+      // 清除可能存在的全局变量
+      if (window.currentUser) window.currentUser = null;
+      if (window.userData) window.userData = null;
+
+      alert("已退出登录！");
+      window.location.href = "login.html"; // 跳转回登录页
+    }
+  </script>
 
 </body>
-<script>
-  document.getElementById("logoutBtn").addEventListener("click", function () {
-
-    // === 清除本地登录信息 ===
-    localStorage.removeItem("token");
-    localStorage.removeItem("userInfo");
-    sessionStorage.clear();
-
-    // 如有全局 JS 内存变量（示例）
-    if (window.currentUser) window.currentUser = null;
-
-    // 可选：通知后端注销（如果你的后端支持）
-    // fetch(API_BASE_URL + "/logout", { method: "POST", credentials: "include" });
-
-    alert("已退出登录！");
-    window.location.href = "login.html"; // 跳转回登录页
-  });
-</script>
 
 </html>

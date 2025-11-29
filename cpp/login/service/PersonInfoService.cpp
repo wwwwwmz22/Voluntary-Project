@@ -29,13 +29,15 @@ PersonAllInfoDTO::Wrapper PersonInfoServer::getByIdAndPasword(const PersonInfoQu
 	dto->identity = res->getIdentity().c_str();
 	dto->edu_background = res->getEduBackground().c_str();
 	dto->score = res->getScore();
+	dto->dorm = res->getDorm();
+	dto->roomid = res->getRoomid();
 	return dto;
 }
 
 bool PersonInfoServer::updateData(const PersonUpdateInfoDTO::Wrapper& dto)
 {
 	PersonInfoDO data;
-	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, SchoolId,  school_id, pName,pname, College, college, VoluntaryId,voluntary_id,PhoneNumber,phone_number, PoliticalStatus,  political_status , Grade, grade, EduBackground, edu_background );
+	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, SchoolId,  school_id, pName,pname, College, college, VoluntaryId,voluntary_id,PhoneNumber,phone_number, PoliticalStatus,  political_status , Grade, grade, EduBackground, edu_background,Dorm,dorm,Roomid,roomid );
 	PersonInfoDAO dao;
 	return dao.update(data) == 1;
 }
@@ -51,7 +53,7 @@ bool PersonInfoServer::updateScore(const PersonUpdateScoreDTO::Wrapper& dto)
 bool PersonInfoServer::saveData(const PersonAllInfoDTO::Wrapper& dto)
 {
 	PersonInfoDO data;
-	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, SchoolId, school_id, Pasword, pasword, pName, pname, PhoneNumber, phone_number, VoluntaryId, voluntary_id, PoliticalStatus, political_status, College, college, VoluntaryTime, voluntary_time, Gender, gender, Grade, grade, EduBackground, edu_background, Score, score,Identity, identity);
+	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, SchoolId, school_id, Pasword, pasword, pName, pname, PhoneNumber, phone_number, VoluntaryId, voluntary_id, PoliticalStatus, political_status, College, college, VoluntaryTime, voluntary_time, Gender, gender, Grade, grade, EduBackground, edu_background, Score, score,Identity, identity, Dorm, dorm, Roomid, roomid);
 	PersonInfoDAO dao;
 	return dao.insert(data) == 1;
 }

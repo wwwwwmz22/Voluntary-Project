@@ -36,6 +36,10 @@ class PersonUpdateInfoDTO : public oatpp::DTO {
 	API_DTO_FIELD_DEFAULT(UInt64, grade, ZH_WORDS_GETTER("person.info.grade"));
 	//学历
 	API_DTO_FIELD_DEFAULT(String, edu_background, ZH_WORDS_GETTER("person.info.edubackground"));
+	// 宿舍楼
+	API_DTO_FIELD_DEFAULT(String, dorm, ZH_WORDS_GETTER("person.info.dorm"));
+	//房间号
+	API_DTO_FIELD_DEFAULT(String, roomid, ZH_WORDS_GETTER("person.info.roomid"));
 };
 
 /**
@@ -77,6 +81,10 @@ class PersonAllInfoDTO :public PersonInfoDTO {
 	API_DTO_FIELD_DEFAULT(UInt64, score, ZH_WORDS_GETTER("person.info.score"));
     // 身份
 	API_DTO_FIELD_DEFAULT(String, identity, ZH_WORDS_GETTER("person.info.identity"));
+	// 宿舍楼
+	API_DTO_FIELD_DEFAULT(String, dorm, ZH_WORDS_GETTER("person.info.dorm"));
+	//房间号
+	API_DTO_FIELD_DEFAULT(String, roomid, ZH_WORDS_GETTER("person.info.roomid"));
 };
 
 #include OATPP_CODEGEN_END(DTO)

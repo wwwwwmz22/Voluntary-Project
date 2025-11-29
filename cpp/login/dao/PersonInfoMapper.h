@@ -27,6 +27,8 @@ public:
 		data.setIdentity(resultSet->getString(12));
 		data.setEduBackground(resultSet->getString(13));
 		data.setScore(resultSet->getUInt64(14));
+		data.setDorm(resultSet->getString(15));
+		data.setRoomid(resultSet->getString(16));
 		return data;
 	}
 
@@ -50,6 +52,8 @@ public:
 		data->setIdentity(resultSet->getString(12));
 		data->setEduBackground(resultSet->getString(13));
 		data->setScore(resultSet->getUInt64(14));
+		data->setDorm(resultSet->getString(15));
+		data->setRoomid(resultSet->getString(16));
 		return data;
 	}
 

@@ -136,6 +136,20 @@ async function login() {
 }
 
 function logout() {
+    // === 彻底清除所有本地登录信息 ===
+    // 清除localStorage中的用户数据
     localStorage.removeItem("userData");
+    localStorage.removeItem("token");
+    localStorage.removeItem("userInfo");
+    localStorage.removeItem("user");
+    localStorage.removeItem("access_token");
+
+    // 清除sessionStorage
+    sessionStorage.clear();
+
+    // 清除可能存在的全局变量
+    if (window.currentUser) window.currentUser = null;
+    if (window.userData) window.userData = null;
+
     window.location.href = "login.html";
 }

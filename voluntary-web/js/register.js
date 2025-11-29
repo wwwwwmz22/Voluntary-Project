@@ -123,6 +123,8 @@ async function register() {
     const gender = document.getElementById("gender").value;
     const grade = parseInt(document.getElementById("grade").value, 10);
     const edu_background = document.getElementById("edu_background").value;
+    const dorm = document.getElementById("dorm").value;
+    const roomid = trimStr(document.getElementById("roomid").value);
 
     // ======= 校验 =======
     if (!pname) return alert("请输入姓名");
@@ -147,6 +149,8 @@ async function register() {
         gender,
         grade,
         edu_background,
+        dorm,
+        roomid,
         identity: "user",
         score: 0
     };

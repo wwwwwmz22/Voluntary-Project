@@ -22,6 +22,9 @@ class PersonInfoDO{
 	CC_SYNTHESIZE(string, identity, Identity);
 	CC_SYNTHESIZE(string, edu_background, EduBackground);
 	CC_SYNTHESIZE(uint64_t, score, Score);
+	CC_SYNTHESIZE(string, dorm, Dorm);
+	CC_SYNTHESIZE(string, roomid, Roomid);
+
 
 public:
 	PersonInfoDO() {
@@ -39,6 +42,8 @@ public:
 		identity = "";
 		edu_background = "";
 		score = 0;
+		dorm = "";
+		roomid = "";
 	}
 
 };

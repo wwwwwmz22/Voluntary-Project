@@ -1,4 +1,3 @@
-
 /* global apiRequest, getCurrentUser, sha256 */
 
 // 加载编辑页面的个人信息
@@ -16,6 +15,8 @@ function loadEditProfile() {
     document.getElementById("edit_phone_number").value = user.phone_number || '';
     document.getElementById("edit_grade").value = user.grade || '';  // 如果为空则填入默认值
     document.getElementById("edit_education").value = user.edu_background || '';  // 如果为空则填入默认值
+    document.getElementById("edit_dorm").value = user.dorm || '';  // 宿舍楼栋
+    document.getElementById("edit_roomid").value = user.roomid || '';  // 房间号
 }
 
 // 保存修改后的个人信息
@@ -32,6 +33,8 @@ async function saveProfile() {
     const phone_number = document.getElementById("edit_phone_number").value.trim();
     const grade = document.getElementById("edit_grade").value.trim();
     const edu_background = document.getElementById("edit_education").value.trim();
+    const dorm = document.getElementById("edit_dorm").value.trim();
+    const roomid = document.getElementById("edit_roomid").value.trim();
 
     // 对于未填写的字段，使用缓存中的值
     const payload = {
@@ -42,7 +45,9 @@ async function saveProfile() {
         political_status: political_status || user.political_status || "",
         phone_number: phone_number || user.phone_number || "",
         grade: grade ? parseInt(grade) : (user.grade || 0),
-        edu_background: edu_background || user.edu_background || ""
+        edu_background: edu_background || user.edu_background || "",
+        dorm: dorm || user.dorm || "",
+        roomid: roomid || user.roomid || ""
     };
 
 

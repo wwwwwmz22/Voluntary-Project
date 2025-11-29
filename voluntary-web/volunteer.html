@@ -68,6 +68,35 @@
       color: #333;
       font-weight: bold;
     }
+
+    .test-section {
+      padding: 20px;
+      max-width: 900px;
+      margin: 20px auto;
+      background: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .test-section h2 {
+      color: #3498db;
+      margin-top: 0;
+    }
+
+    .start-test-btn {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .start-test-btn:hover {
+      background-color: #2980b9;
+    }
   </style>
 </head>
 
@@ -94,6 +123,12 @@
       <li><a href="export.html">导出义工时表</a></li>
     </ul>
   </nav>
+
+  <div class="test-section">
+    <h2>志愿者资格测试</h2>
+    <p>想要成为正式志愿者，需要通过我们的资格测试。测试包含100道题目，考试时间为60分钟。</p>
+    <button class="start-test-btn" onclick="window.location.href='volunteertest.html'">开始测试</button>
+  </div>
 
   <script>
     function logout() {

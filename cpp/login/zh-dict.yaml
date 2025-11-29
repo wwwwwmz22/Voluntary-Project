@@ -18,6 +18,8 @@ person:
   id: 主键id
   score: 分数
   identity: 身份
+  dorm: 宿舍楼
+  roomid: 房间号
 
 duty:
  query: 查询报名信息
